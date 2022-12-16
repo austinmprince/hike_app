@@ -7,7 +7,6 @@ from pydantic import BaseModel, Field, EmailStr
 from pymongo import MongoClient
 from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordBearer
-import settings
 
 app = FastAPI()
 
@@ -41,6 +40,10 @@ def delete_hike(hike_id: int):
 @app.get("/hikes")
 def read_hikes(token:str = Depends(oauth2_scheme)):
     return token
+
+@app.get("/signup")
+def signup_user(request: Request):
+  print('logging the ')
 
 
 

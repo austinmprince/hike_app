@@ -7,6 +7,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
 import { CssBaseline, TextField, Typography } from "@mui/material";
 
+async function signupUser(email, password, name){
+  const response = await fetch("https://localhost:5000/api/signup", {
+    method: "POST"
+  })
+}
 const theme = createTheme();
 const Signup = () => {
   console.log("signup page loading");
@@ -47,7 +52,7 @@ const Signup = () => {
         autoFocus
       />
       <TextField sx={{mt:1 }}required fullWidth id="password" label="Password"
-      name="password" autoComplete="password" autofocus/>
+      name="password" type="password" autoComplete="password" autoFocus/>
       <Button
               type="submit"
               fullWidth
