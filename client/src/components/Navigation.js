@@ -27,13 +27,13 @@ const Navigation = (props) => {
         <Box sx={{ marginLeft: "auto", display: "flex", alignItems: "center"}}> 
           { props.props.isShowing ? 
           <Link to="/login" style={{ textDecoration: "none"}}>
-          <Button sx={{bgColor:'background.paper'}}>
+          <Button variant="contained" color="primary">
           Login
         </Button>
           </Link> 
           : 
           <Link to="/logout" style={{ textDecoration: "none"}}>
-          <Button sx={{bgColor:'background.paper'}}>
+          <Button variant="contained" color="primary">
           Logout
         </Button>
           </Link>  

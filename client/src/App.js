@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Navigation from './components/Navigation'
 import { BrowserRouter } from "react-router-dom";
@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Signup from './pages/Signup';
 
 
-var testProps = { user: 'userName', isShowing: true };
+var testProps = { user: 'userName', isShowing: false };
 
 const theme = createTheme({
   palette: {
@@ -21,7 +21,9 @@ const theme = createTheme({
 function App() {
   //console.log(testProps.user);
   return (
+  
     <ThemeProvider theme={theme}>
+      <CssBaseline/>
       <BrowserRouter>
     <Navigation props={testProps}/>
     <div>
