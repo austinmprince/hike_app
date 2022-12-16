@@ -14,7 +14,7 @@ var testProps = { user: 'userName', isShowing: true };
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
   },
 });
 

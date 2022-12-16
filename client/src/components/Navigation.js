@@ -16,7 +16,7 @@ const Navigation = (props) => {
   console.log(props.props.isShowing);
 // export default function Navigation() {
   return(
-    <AppBar position="static">
+    <AppBar position="static" >
       <Container maxWidth="xl">
       <Toolbar>
         <IconButton>  
