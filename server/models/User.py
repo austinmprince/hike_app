@@ -3,11 +3,10 @@ from datetime import datetime
 from typing import Union
 
 class UserIn(BaseModel):
-    email: str = Field(...)
-    password : str = Field(...)
-    last_login: Union[datetime, None] = None
-    #full_name: Union[str, None] = None
+  email: str = Field(...)
+  password : str = Field(...)
+  last_login: Union[datetime, None]
 
 class UserOut(BaseModel):
-  email: str = Field(...)
+  email: Union[str, None]
 

@@ -9,7 +9,7 @@ import { CssBaseline, TextField, Typography } from "@mui/material";
 
 async function signupUser(email, password){
   console.log(email, password);
-  const response = await fetch("https://localhost:8000/signup", {
+  const response = await fetch("http://localhost:8000/signup", {
     method: "POST",
     headers: {
       "ContentType": "application/json"
