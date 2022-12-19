@@ -7,10 +7,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
 import { CssBaseline, TextField, Typography } from "@mui/material";
 
-async function signupUser(email, password, name){
-  const response = await fetch("https://localhost:5000/api/signup", {
-    method: "POST"
-  })
+async function signupUser(email, password){
+  console.log(email, password);
+  const response = await fetch("https://localhost:8000/signup", {
+    method: "POST",
+    headers: {
+      "ContentType": "application/json"
+    },
+    body: JSON.stringify({email, password})
+  });
 }
 const theme = createTheme();
 const Signup = () => {
@@ -18,10 +23,11 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log('adding user');
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    signupUser(data.get('email'), data.get('password'), 'testname').then((response) =>
+    {
+      console.log(response);
     });
   }
   return (
