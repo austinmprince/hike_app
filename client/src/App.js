@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Signup from './pages/Signup';
+import Login from './pages/Login'
 
 
 var testProps = { user: 'userName', isShowing: false };
@@ -29,6 +30,7 @@ function App() {
     <div>
       <Routes>
         <Route path="/signup" element={<Signup/>} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
     </div>
     </BrowserRouter>
