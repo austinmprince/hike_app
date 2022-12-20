@@ -62,18 +62,28 @@ const Login = () => {
       <TextField sx={{mt:1 }}required fullWidth id="password" label="Password"
       name="password" type="password" autoComplete="password" autoFocus/>
       </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2}}>
-              Sign Up
-            </Button>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Login
-            </Button>
-        </Grid>
-      </Grid>
+    <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
+      Login
+    </Button>
+    
+ 
+<Box display="flex" justifyContent="center" whiteSpace="nowrap">
+            <Typography fontSize={12} alignItems="center"> 
+            <Grid container>
+              
+              <Grid item xs sx={{mr: 2}}>
+                Forgot your password
+              </Grid>
+              <Grid item xs>
+                <Link href="/signup">
+                {"Don't have an account click to signup"}
+                </Link>
+              </Grid>
+              
+            </Grid>
+            </Typography>
+            </Box>
+
     
     </Box>
     </Container>

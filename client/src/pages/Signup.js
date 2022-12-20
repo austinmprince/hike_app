@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar  from '@mui/material/Avatar';
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
 import { CssBaseline, TextField, Typography } from "@mui/material";
@@ -41,13 +43,15 @@ const Signup = () => {
       alignItems: 'center',
     }}
   >
-    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+    <Avatar sx={{ m: 2, bgcolor: 'secondary.main' }}>
       <LockOutlinedIcon/>
     </Avatar>
-    <Typography component="h1" variant="h5">
-      Sign up
+    <Typography component="h1" variant="h5" sx={{mb: 2}}>
+      Sign Up
     </Typography>
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    
+    <TextField required id="username" label="Username" name="Username" fullWidth />
+    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
       <TextField
         required
         fullWidth
@@ -57,7 +61,7 @@ const Signup = () => {
         autoComplete="email"
         autoFocus
       />
-      <TextField sx={{mt:1 }}required fullWidth id="password" label="Password"
+      <TextField sx={{mt:2 }}required fullWidth id="password" label="Password"
       name="password" type="password" autoComplete="password" autoFocus/>
       <Button
               type="submit"
@@ -65,9 +69,25 @@ const Signup = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Sign Up
             </Button>
-    </Box>
+            <Box display="flex" justifyContent="center" whiteSpace="nowrap">
+            <Typography fontSize={12} alignItems="center"> 
+            <Grid container>
+              
+              <Grid item xs sx={{mr: 2}}>
+                Forgot your password
+              </Grid>
+              <Grid item xs>
+                <Link href="/login">
+                {"Already have an account? Click to login"}
+                </Link>
+              </Grid>
+              
+            </Grid>
+            </Typography>
+            </Box>
+      </Box>
     </Box>
     </Container>
   );
