@@ -1,13 +1,8 @@
 import React from "react";
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar  from '@mui/material/Avatar';
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
-import { CssBaseline, TextField, Typography } from "@mui/material";
+import { CssBaseline, TextField, Typography, Box, Avatar, Button, Grid, Link } from "@mui/material";
 
 async function signupUser(email, password){
   console.log(email, password);

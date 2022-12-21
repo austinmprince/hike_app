@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Signup from './pages/Signup';
 import Login from './pages/Login'
+import HikeDisplay from './pages/HikeDisplay';
 
 
 var testProps = { user: 'userName', isShowing: false };
@@ -29,6 +30,7 @@ function App() {
     <Navigation props={testProps}/>
     <div>
       <Routes>
+        <Route path="/hikedisplay" element={<HikeDisplay/>}/>
         <Route path="/signup" element={<Signup/>} />
         <Route path="/login" element={<Login/>} />
       </Routes>
