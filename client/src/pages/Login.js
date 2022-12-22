@@ -4,14 +4,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
 
-async function loginUser(email, password){
-  console.log(email, password);
+async function loginUser(username, password){
+  console.log(username, password);
   const response = await fetch("http://localhost:8000/login", {
     method: "POST",
     headers: {
       "ContentType": "application/json"
     },
-    body: JSON.stringify({email, password})
+    body: JSON.stringify({username, password})
   });
 }
 const theme = createTheme();
@@ -22,7 +22,7 @@ const Login = () => {
     event.preventDefault();
     console.log('loggin in user user');
     const data = new FormData(event.currentTarget);
-    loginUser(data.get('email'), data.get('password'), 'testname').then((response) =>
+    loginUser(data.get('username'), data.get('password')).then((response) =>
     {
       console.log(response);
     });
@@ -48,10 +48,10 @@ const Login = () => {
       <TextField
         required
         fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
+        id="username"
+        label="Username"
+        name="username"
+        autoComplete="username"
         autoFocus
       />
       <TextField sx={{mt:1 }}required fullWidth id="password" label="Password"

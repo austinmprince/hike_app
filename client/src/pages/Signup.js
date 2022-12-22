@@ -4,14 +4,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
 import { CssBaseline, TextField, Typography, Box, Avatar, Button, Grid, Link } from "@mui/material";
 
-async function signupUser(email, password){
-  console.log(email, password);
+async function signupUser(username, email, password){
+  console.log(username, email, password);
   const response = await fetch("http://localhost:8000/signup", {
     method: "POST",
     headers: {
-      "ContentType": "application/json"
+      "Content-Type": "application/json"
     },
-    body: JSON.stringify({email, password})
+    body: JSON.stringify({username, email, password})
   });
 }
 const theme = createTheme();
@@ -20,9 +20,11 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+   
     console.log('adding user');
     const data = new FormData(event.currentTarget);
-    signupUser(data.get('email'), data.get('password'), 'testname').then((response) =>
+    console.log(data);
+    signupUser(data.get('username'), data.get('email'), data.get('password')).then((response) =>
     {
       console.log(response);
     });
@@ -45,16 +47,10 @@ const Signup = () => {
       Sign Up
     </Typography>
     
-    <TextField required id="username" label="Username" name="Username" fullWidth />
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
-      <TextField
-        required
-        fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
-        autoFocus
+    <TextField required id="username" label="Username" name="username" fullWidth />
+      <TextField required fullWidth id="email" label="Email Address" name="email" autoComplete="email" 
+      autoFocus sx= {{mt: 2}}
       />
       <TextField sx={{mt:2 }}required fullWidth id="password" label="Password"
       name="password" type="password" autoComplete="password" autoFocus/>

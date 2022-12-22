@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Union
 
 class UserIn(BaseModel):
+  username: str = Field(...)
   email: str = Field(...)
   password : str = Field(...)
   last_login: Union[datetime, None]
