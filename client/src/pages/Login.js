@@ -6,20 +6,19 @@ import { Container } from "@mui/system";
 
 async function loginUser(username, password){
   console.log(username, password);
-  const response = await fetch("http://localhost:8000/login", {
+  const response = await fetch("http://localhost:8000/token", {
     method: "POST",
     headers: {
-      "ContentType": "application/json"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: JSON.stringify({username, password})
+    body:`grant_type=password&username=${username}&password=${password}`
   });
 }
 const theme = createTheme();
 const Login = () => {
+  
   const handleSubmit = (event) => {
-    console.log('button pressed');
     event.preventDefault();
-    console.log('loggin in user user');
     const data = new FormData(event.currentTarget);
     loginUser(data.get('username'), data.get('password')).then((response) =>
     {
@@ -55,10 +54,11 @@ const Login = () => {
       />
       <TextField sx={{mt:1 }}required fullWidth id="password" label="Password"
       name="password" type="password" autoComplete="password" autoFocus/>
-      </Box>
-    <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
+       <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
       Login
     </Button>
+      </Box>
+   
     
  
 <Box display="flex" justifyContent="center" whiteSpace="nowrap">

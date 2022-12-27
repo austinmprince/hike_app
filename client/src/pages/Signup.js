@@ -16,8 +16,6 @@ async function signupUser(username, email, password){
 }
 const theme = createTheme();
 const Signup = () => {
-  console.log("signup page loading");
-
   const handleSubmit = (event) => {
     event.preventDefault();
    
