@@ -16,9 +16,8 @@ async function loginUser(username, password){
 }
 const theme = createTheme();
 const Login = () => {
-  console.log("signup page loading");
-
   const handleSubmit = (event) => {
+    console.log('button pressed');
     event.preventDefault();
     console.log('loggin in user user');
     const data = new FormData(event.currentTarget);

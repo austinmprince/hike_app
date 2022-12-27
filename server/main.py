@@ -35,17 +35,33 @@ hike_coll = client.Hikes.get_collection('hikes')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"])
 
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+  not_valid_exception = HTTPException(status_code=401, detail="User is not allowed to see this data")
+  try:
+    payload = jwt.decode(token, secret_key, algorithm)
+    username = payload.get('sub')
+    if not username:
+      raise not_valid_exception
+  except JWTError:
+    raise not_valid_exception
+  user = _get_user(username)
+  if not user:
+    raise not_valid_exception
+  return user
+
 @app.get("/")
 def read_root():
   return {"Hello": "World"}
 
-@app.get("/hike/{hike_id}")
-def read_items(hike_id):
-  return {"hike_id": hike_id, "q": q }
+@app.get("/hike/{hike_id}", response_model=Hike)
+def get_hike_details(hike_id: int, user:UserIn = Depends(get_current_user)):
+  hike = hike_coll.find_one({"hike_id": hike_id})
+  return hike
 
-@app.post("/hike")
-def create_hike(hike: Hike):
-  
+@app.post("/hike", response_model=Hike)
+def create_hike(hike: Hike = Depends(get_current_user)):
   return {"hike created!"}
 
 @app.patch("/hike/{hike_id}")
@@ -56,9 +72,9 @@ def update_hike(hike_id: int):
 def delete_hike(hike_id: int):
   return {"deleting hike_id": hike_id}
 
-@app.get("/hikes")
-def read_hikes(token:str = Depends(oauth2_scheme)):
-  return token
+# @app.get("/hikes")
+# def read_hikes(token:str = Depends(oauth2_scheme)):
+#   return token
 
 @app.post("/signup", response_model=UserOut)
 def signup_user(user: UserIn):
@@ -82,6 +98,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
   token = create_access_token({"sub": user.username}, expires_delta=access_token_expires)
   return {"access_token": token, "token_type": "bearer" }
 
+
+
+@app.get("/users/me", response_model=UserOut)
+def read_users_me(current_user: UserOut = Depends(get_current_user)):
+  return current_user
 
 def _authenticate(username: str, password: str) -> UserOut:
   curr_user = _get_user(username)
@@ -111,19 +132,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
   encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=algorithm)
   return encoded_jwt
   
-def get_current_user(token: str = Depends(oauth2_scheme)):
-  not_valid_exception = HTTPException(status_code=401, details="User is not allowed to see this data")
-  try:
-    payload = jwt.decode(token)
-    username = payload.get('sub')
-    if not username:
-      raise not_valid_exception
-  except JWTError:
-    raise not_valid_exception
-  user = _get_user(username)
-  if not user:
-    raise not_valid_exception
-  return user
+
 
 
 # if __name__ == "__main__":
