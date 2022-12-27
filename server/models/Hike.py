@@ -5,3 +5,4 @@ class Hike(BaseModel):
     hike_name: str = Field(...)
     date: datetime = Field(...)
     region: str = "Not specified"
+    username: str = None

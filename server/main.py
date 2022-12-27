@@ -58,11 +58,19 @@ def read_root():
 @app.get("/hike/{hike_id}", response_model=Hike)
 def get_hike_details(hike_id: int, user:UserIn = Depends(get_current_user)):
   hike = hike_coll.find_one({"hike_id": hike_id})
+  if not hike:
+    raise HTTPException(status_code=400, detail="Hike not found in DB")
   return hike
 
 @app.post("/hike", response_model=Hike)
-def create_hike(hike: Hike = Depends(get_current_user)):
-  return {"hike created!"}
+def create_hike(hike: Hike, user:UserIn = Depends(get_current_user)):
+  hike.username = user.username
+  db_hike = jsonable_encoder(hike)
+  try:
+    hike_coll.insert_one(db_hike)
+    return hike
+  except Exception as e:
+    raise HTTPException(status_code=500, detail="Hike could not be inserted into DB")
 
 @app.patch("/hike/{hike_id}")
 def update_hike(hike_id: int):
@@ -72,9 +80,12 @@ def update_hike(hike_id: int):
 def delete_hike(hike_id: int):
   return {"deleting hike_id": hike_id}
 
-# @app.get("/hikes")
-# def read_hikes(token:str = Depends(oauth2_scheme)):
-#   return token
+@app.get("/hikes/{username}")
+def read_hikes(username: str, user:UserIn = Depends(get_current_user)):
+  hikes = hike_coll.find({"username": username})
+  if not hikes:
+    return None
+  return hikes
 
 @app.post("/signup", response_model=UserOut)
 def signup_user(user: UserIn):
@@ -84,8 +95,11 @@ def signup_user(user: UserIn):
   user.password = pwd_context.hash(user.password)
   user.last_login = datetime.now()
   db_user_obj = jsonable_encoder(user)
-  users_coll.insert_one(db_user_obj)
-  return user
+  try:
+    users_coll.insert_one(db_user_obj)
+    return user
+  except Exception as e:
+    raise HTTPException(status_code=500, detail="User could not be inserted into DB correctly")
 
 @app.post("/token")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
