@@ -9,7 +9,9 @@ username = env_config.get('USERNAME')
 password = env_config.get('PASSWORD')
 secret_key = env_config.get('SECRET_KEY')
 algorithm = env_config.get('ALGORITHM')
+cookie_name = env_config.get('COOKIE_NAME')
 access_token_expire_minutes = env_config.get('ACCESS_TOKEN_EXPIRE_MINUTES')
+
 
 # MongoDB attributes
 

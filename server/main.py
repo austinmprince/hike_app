@@ -1,14 +1,16 @@
 # source vensv/bin/activate
 from models.User import UserIn, UserOut
 from models.Hike import Hike
+from models.LoginForm import LoginForm
 from typing import Union
 from pydantic import BaseModel, Field, EmailStr
 from pymongo import MongoClient
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import RedirectResponse
 from passlib.context import CryptContext
-from settings import mongodb_uri, port, secret_key, algorithm, access_token_expire_minutes
+from settings import mongodb_uri, port, secret_key, algorithm, access_token_expire_minutes, cookie_name
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,11 +37,16 @@ hike_coll = client.Hikes.get_collection('hikes')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"])
 
-
+def get_current_user_from_cookie(request: Request):
+  print("cookies" + str(request.cookies))
+  token = request.cookies.get(cookie_name)
+  #token = token.removeprefix("Bearer").strip()
+  return None
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
   not_valid_exception = HTTPException(status_code=401, detail="User is not allowed to see this data")
   try:
+    print(token)
     payload = jwt.decode(token, secret_key, algorithm)
     username = payload.get('sub')
     if not username:
@@ -52,8 +59,15 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
   return user
 
 @app.get("/")
-def read_root():
-  return {"Hello": "World"}
+def read_root(request: Request, user:UserIn = Depends(get_current_user_from_cookie)):
+  print("main page")
+  try:
+    get_current_user_from_cookie(request)
+    print("logged in!")
+  except HTTPException:
+    raise HTTPException(status_code=500, detail="Not founds ")
+  return {"Please login to the website to access super awesome content"}
+  
 
 @app.get("/hike/{hike_id}", response_model=Hike)
 def get_hike_details(hike_id: int, user:UserIn = Depends(get_current_user)):
@@ -102,17 +116,26 @@ def signup_user(user: UserIn):
     raise HTTPException(status_code=500, detail="User could not be inserted into DB correctly")
 
 @app.post("/token")
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
+def login_for_token(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
   user = _authenticate(form_data.username, form_data.password)
+  print("user" + str(user))
   if not user:
     raise HTTPException(status_code=400, detail="User not found in DB")
-  print(access_token_expire_minutes)
-
   access_token_expires = timedelta(minutes=int(access_token_expire_minutes))
   token = create_access_token({"sub": user.username}, expires_delta=access_token_expires)
+  response.set_cookie(key=cookie_name, value=f"Bearer {token}", httponly=True)
   return {"access_token": token, "token_type": "bearer" }
 
-
+@app.post("/login")
+async def login(request: Request):
+  form = LoginForm(request)
+  await form._load_form_data()
+  try:
+    response = RedirectResponse("/", status_code=302)
+    login_for_token(response=response, form_data=form)
+    return response
+  except HTTPException as e:
+    raise HTTPException(status_code=404, detail="Login failed!")
 
 @app.get("/users/me", response_model=UserOut)
 def read_users_me(current_user: UserOut = Depends(get_current_user)):
@@ -136,7 +159,6 @@ def _get_user(username: str):
   return UserIn(**curr_user)
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
-  print(data, expires_delta)
   to_encode = data.copy()
   if expires_delta:
     expire = datetime.utcnow() + expires_delta
