@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Avatar, Button, Link, Grid, CssBaseline, TextField, Typography } from "@mui/material";
+import { Box, Avatar, Button, Link, Grid, CssBaseline, TextField, Typography, appBarClasses } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from "@mui/system";
+import App from "../App";
 
 async function loginUser(username, password){
   console.log(username, password);
@@ -14,6 +15,7 @@ async function loginUser(username, password){
     body:`grant_type=password&username=${username}&password=${password}`
     /* body: JSON.stringify({username, password})*/
   });
+  localStorage.setItem("username", username);
 }
 const theme = createTheme();
 const Login = () => {
@@ -25,6 +27,7 @@ const Login = () => {
     {
       console.log(response);
     }
+   
     );
  
   }

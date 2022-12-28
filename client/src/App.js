@@ -21,6 +21,8 @@ const theme = createTheme({
 });
 
 function App() {
+  localStorage.getItem("username");
+  console.log(localStorage.getItem("username"))
   //console.log(testProps.user);
   return (
   
