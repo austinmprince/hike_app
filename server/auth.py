@@ -1,3 +1,7 @@
+
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
 def _validate_password(plan_password, hashed_password):
   pwd_context.verify(plan_password, hashed_password)
   return pwd_context.verify(plan_password,hashed_password)

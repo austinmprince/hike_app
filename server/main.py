@@ -95,11 +95,14 @@ def delete_hike(hike_id: int):
   return {"deleting hike_id": hike_id}
 
 @app.get("/hikes/{username}")
-def read_hikes(username: str, user:UserIn = Depends(get_current_user)):
+def read_hikes(username: str, user:UserIn = Depends(get_current_user_from_cookie)):
   hikes = hike_coll.find({"username": username})
+  hike_list = []
+  for hike in hikes:
+    hike_list.append(Hike(**hike))
   if not hikes:
     return None
-  return hikes
+  return hike_list
 
 @app.post("/signup", response_model=UserOut)
 def signup_user(user: UserIn):
