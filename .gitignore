@@ -20,7 +20,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/.vscode
 
 #api ignore
 /server/__pycache__/
 /server/hike_env/
+
+
