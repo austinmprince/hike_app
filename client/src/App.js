@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Signup from './pages/Signup';
 import Login from './pages/Login'
 import HikeDisplay from './pages/HikeDisplay';
+import { useState } from 'react';
 
 
 var testProps = { user: 'userName', isShowing: false };
@@ -21,15 +22,16 @@ const theme = createTheme({
 });
 
 function App() {
+
+  const [user, setUser] = useState("");
+  
   localStorage.getItem("username");
-  console.log(localStorage.getItem("username"))
-  //console.log(testProps.user);
   return (
   
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <BrowserRouter>
-    <Navigation props={testProps}/>
+    <Navigation user={user}/>
     <div>
       <Routes>
         <Route path="/hikedisplay" element={<HikeDisplay/>}/>

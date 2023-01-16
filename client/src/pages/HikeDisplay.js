@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid"
 import HikeCard from "../components/HikeCard";
 
-const HikeDisplay = (props) => {
-  console.log(localStorage.getItem("username"));
+const HikeDisplay = () => {
   const [hikes, setHikes] = useState([]);
 
   useEffect(() => {
     async function getHikes() {
+      console.log('calling get hikes');
       let username = localStorage.getItem("username");
       const response = await fetch(`http://localhost:8000/hikes/${username}`, {
       method: "GET",
@@ -15,16 +15,17 @@ const HikeDisplay = (props) => {
         "Content-Type": "application/json"
       }
     });
-    console.log(response);
     const hikes = await response.json();
     setHikes(hikes);
     }
     getHikes();
-  })
+    return;
+  }, [hikes.length]);
 
   function hikeList() {
+    console.log(hikes);
     return hikes.map((hike) => {
-      return <Grid key={hike.id} item sx={{m:2}} xs={4}><HikeCard/></Grid>
+      return <Grid item sx={{m:2}} xs={4}><HikeCard key={hike.hike_name} props={hike.props}/></Grid>
     })
   }
   return (

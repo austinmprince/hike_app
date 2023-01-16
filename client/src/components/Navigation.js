@@ -13,7 +13,9 @@ var x =  {
 // const location = useLocation();
 // const shouldShowLogin;
 const Navigation = (props) => {
-  console.log(props.props.isShowing);
+
+  const { user } = props;
+  console.log(props);
 // export default function Navigation() {
   return(
     <AppBar position="static" >
@@ -25,14 +27,14 @@ const Navigation = (props) => {
           HikeApp
         </Typography>
         <Box sx={{ marginLeft: "auto", display: "flex", alignItems: "center"}}> 
-          { props.props.isShowing ? 
-          <Link to="/login" style={{ textDecoration: "none"}}>
+          { props.user == "" || props.user === null ? 
+          <Link href="/login" style={{ textDecoration: "none"}}>
           <Button variant="contained" color="primary">
           Login
         </Button>
           </Link> 
           : 
-          <Link to="/logout" style={{ textDecoration: "none"}}>
+          <Link href="/logout" style={{ textDecoration: "none"}}>
           <Button variant="contained" color="primary">
           Logout
         </Button>

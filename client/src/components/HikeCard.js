@@ -2,12 +2,12 @@ import React from "react";
 import {Card, CardContent, Typography, CardActions, Button } from "@mui/material";
 
 
-const HikeCard = () => {
+const HikeCard = (props) => {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          08.07.1994
+          {props.date}
         </Typography>
         <Typography variant="h5" component="div">
           Angle Lake
