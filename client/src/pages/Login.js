@@ -13,7 +13,7 @@ async function loginUser(username, password){
       "Content-Type": "application/x-www-form-urlencoded"
     },
     body:`grant_type=password&username=${username}&password=${password}`
-    /* body: JSON.stringify({username, password})*/
+   
   });
   localStorage.setItem("username", username);
 }
@@ -28,7 +28,9 @@ const Login = () => {
       console.log(response);
     }
    
-    );
+    ).catch(function(error) {
+      alert('there was an error logging in!');
+    });
  
   }
   return (

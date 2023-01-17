@@ -25,7 +25,7 @@ const HikeDisplay = () => {
   function hikeList() {
     console.log(hikes);
     return hikes.map((hike) => {
-      return <Grid item sx={{m:2}} xs={4}><HikeCard key={hike.hike_name} props={hike.props}/></Grid>
+      return <Grid item sx={{m:2}} xs={4}><HikeCard key={hike.hike_name} {...hike}/></Grid>
     })
   }
   return (

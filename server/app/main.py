@@ -38,8 +38,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"])
 
 def get_current_user_from_cookie(request: Request):
-  print("cookies" + str(request.cookies))
   token = request.cookies.get(cookie_name)
+  print(token, request.cookies)
   #token = token.removeprefix("Bearer").strip()
   return None
 
