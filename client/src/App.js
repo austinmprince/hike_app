@@ -24,8 +24,6 @@ const theme = createTheme({
 function App() {
 
   const [user, setUser] = useState("");
-  
-  localStorage.getItem("username");
   return (
   
     <ThemeProvider theme={theme}>
@@ -34,9 +32,9 @@ function App() {
     <Navigation user={user}/>
     <div>
       <Routes>
-        <Route path="/hikedisplay" element={<HikeDisplay/>}/>
+        <Route path="/hikedisplay" element={<HikeDisplay user={user}/>}/>
         <Route path="/signup" element={<Signup/>} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/login" element={<Login setUser={setUser}/>} />
       </Routes>
     </div>
     </BrowserRouter>

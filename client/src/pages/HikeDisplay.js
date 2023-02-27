@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid"
 import HikeCard from "../components/HikeCard";
 
-const HikeDisplay = () => {
+const HikeDisplay = ({user}) => {
   const [hikes, setHikes] = useState([]);
-
+  console.log(user);
   useEffect(() => {
     async function getHikes() {
       console.log('calling get hikes');
+      console.log(`${document.cookie}`)
       let username = localStorage.getItem("username");
       const response = await fetch(`http://localhost:8000/hikes/${username}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
+      credentials: 'include'
     });
     const hikes = await response.json();
     setHikes(hikes);

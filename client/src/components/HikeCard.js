@@ -6,8 +6,7 @@ import { format } from 'date-fns'
 const HikeCard = (hike) => {
   console.log();
   var date = new Date(hike.date).toDateString();
-  
-  
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
